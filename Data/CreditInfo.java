@@ -1,7 +1,7 @@
 package Data;
 import java.util.Objects;
 
-public class CreditInfo { // РєР»Р°СЃ РѕРєСЂРµРјРѕРіРѕ РєСЂРµРґРёС‚Сѓ
+public class CreditInfo { // клас окремого кредиту
     private String creditID;
     private String bankName;
     private String creditName;
@@ -57,10 +57,10 @@ public class CreditInfo { // РєР»Р°СЃ РѕРєСЂРµРјРѕРіРѕ РєСЂРµРґРёС‚Сѓ
     @Override
     public String toString() {
         return '\n' +
-                "Р‘Р°РЅРє: " + bankName + " ID: " + creditID + '\n' +
-                "РќР°Р·РІР° РєСЂРµРґРёС‚Сѓ: " + creditName + '\n' +
-                creditSumMin + '-' + creditSumMax + "РіСЂРЅ   " +
-                creditTermMin + '-' + creditTermMax + " РјС–СЃ   " +
+                "Банк: " + bankName + " ID: " + creditID + '\n' +
+                "Назва кредиту: " + creditName + '\n' +
+                creditSumMin + '-' + creditSumMax + "грн   " +
+                creditTermMin + '-' + creditTermMax + " міс   " +
                 percents + '%';
     }
 

@@ -12,37 +12,37 @@ import java.util.Scanner;
 public class SearchPercentCommand implements SearchMenuItem {
     Scanner in = new Scanner(System.in);
     Credits credits = new Credits();
-    CreditInfo[] CredInf = credits.fillBankInfoArray(); // РјР°СЃРёРІ РєСЂРµРґРёС‚С–РІ
+    CreditInfo[] CredInf = credits.fillBankInfoArray(); // масив кредитів
     CreditFile creditfile = new CreditFile();
     private int count = 0;
     @Override
     public int execute(User user) throws IOException {
-        System.out.println("Р’РёРєРѕРЅР°РЅРЅСЏ РїРѕС€СѓРєСѓ РїРѕ РІС–РґСЃРѕС‚РєСѓ СЂС–С‡РЅРёС…");
-        System.out.println("Р’РІРµРґС–С‚СЊ РєС–Р»СЊРєС–СЃС‚СЊ РІС–РґСЃРѕС‚РєС–РІ:");
-            //РІРІРѕРґРёРјРѕ РїРѕС‚СЂС–Р±РЅСѓ РєС–Р»СЊРєС–СЃС‚СЊ РІС–РґСЃРѕС‚РєС–РІ
+        System.out.println("Виконання пошуку по відсотку річних");
+        System.out.println("Введіть кількість відсотків:");
+            //вводимо потрібну кількість відсотків
         int percent = in.nextInt();
 
         for (CreditInfo creditInfo : CredInf) {
-            if (creditInfo.getPercents() <= percent) { // РІРёРІРѕРґРёРјРѕ РїРѕС‚СЂС–Р±РЅС– РєСЂРµРґРёС‚Рё
+            if (creditInfo.getPercents() <= percent) { // виводимо потрібні кредити
                 System.out.println(creditInfo);
                 count++;
             }
         }
-        if (count == 0) System.out.println("РќРµРјР°С” С‚Р°РєРѕРіРѕ РєСЂРµРґРёС‚Сѓ");
+        if (count == 0) System.out.println("Немає такого кредиту");
 
-            //РјРѕР¶Р»РёРІС–СЃС‚СЊ СЃС‚РІРѕСЂРёС‚Рё РєСЂРµРґРёС‚
-        System.out.println("Р—Р°РїРѕРІРЅРёС‚Рё Р°РЅРєРµС‚Сѓ РґР»СЏ РѕС„РѕСЂРјР»РµРЅРЅСЏ РєСЂРµРґРёС‚Сѓ?");
-        System.out.println("1 - РўР°Рє");
-        System.out.println("2 - РќС–");
+            //можливість створити кредит
+        System.out.println("Заповнити анкету для оформлення кредиту?");
+        System.out.println("1 - Так");
+        System.out.println("2 - Ні");
         int confirm = in.nextInt();
         switch (confirm) {
             case 1:
-                creditfile.CreateCreditFile(user); //СЃС‚РІРѕСЂРµРЅРЅСЏ РєСЂРµРґРёС‚Сѓ
+                creditfile.CreateCreditFile(user); //створення кредиту
                 break;
             case 2:
                 break;
             default:
-                System.out.println("РќРµРІС–СЂРЅРёР№ СЃРёРјРІРѕР», РІРІРµРґС–С‚СЊ С‰Рµ СЂР°Р·:");
+                System.out.println("Невірний символ, введіть ще раз:");
         }
         return 1;
     }

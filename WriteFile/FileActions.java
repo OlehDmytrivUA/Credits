@@ -2,7 +2,7 @@ package WriteFile;
 import java.io.*;
 
 public class FileActions {
-    public String readFile(String fileName) throws IOException { //РјРµС‚РѕРґ С‰Рѕ С‡РёС‚Р°С” С„Р°Р№Р» С– РїРѕРІРµСЂС‚Р°С” string
+    public String readFile(String fileName) throws IOException { //метод що читає файл і повертає string
         BufferedReader reader = null;
         reader = new BufferedReader(new FileReader(fileName));
         StringBuilder stringBuilder = new StringBuilder();
@@ -18,47 +18,47 @@ public class FileActions {
         return content;
     }
 
-    public void MonthlyPayment(String filepath) throws IOException { // РјРµС‚РѕРґ РґР»СЏ РјС–СЃСЏС‡РЅРѕС— СЃРїР»Р°С‚Рё РїРѕ РєСЂРµРґРёС‚Сѓ
-        String data = readFile(filepath); //Р·С‡РёСѓС‚С”РјРѕ С„Р°Р№Р» РєСЂРµРґРёС‚Сѓ
-        String[] DataLines = data.split("\n", -1); // С„РѕСЂРјСѓС”РјРѕ РјР°СЃРёРІ СЂСЏРґРєС–РІ
+    public void MonthlyPayment(String filepath) throws IOException { // метод для місячної сплати по кредиту
+        String data = readFile(filepath); //зчиутємо файл кредиту
+        String[] DataLines = data.split("\n", -1); // формуємо масив рядків
         int  Term = 0;
         double Sum = 0, MonthlyPayment = 0, OverPayment = 0, Percent = 0;
 
-            //СЏРєС‰Рѕ СЃРїР»Р°С‡РµРЅРѕ
-        if (DataLines[1].replace("\r", "").compareTo("РЎРџР›РђР§Р•РќРћ") == 0) {
-            System.out.println("\nР¦РµР№ РљСЂРµРґРёС‚ СѓР¶Рµ СЃРїР»Р°С‡РµРЅРѕ\n");
+            //якщо сплачено
+        if (DataLines[1].replace("\r", "").compareTo("СПЛАЧЕНО") == 0) {
+            System.out.println("\nЦей Кредит уже сплачено\n");
             return;
         }
-            //Р·С‡РёС‚СѓС”РјРѕ РґР°РЅС– РїСЂРѕ РєСЂРµРґРёС‚
+            //зчитуємо дані про кредит
         for (int i = 0; i < DataLines.length; i++) {
-            if(DataLines[i].startsWith("Р—Р°Р»РёС€РёР»РѕСЃСЊ")){
+            if(DataLines[i].startsWith("Залишилось")){
                 Sum = Double.parseDouble(DataLines[i+1].replace("\r", ""));
             }
-            if(DataLines[i].startsWith("РњС–СЃСЏС†С–РІ")){
+            if(DataLines[i].startsWith("Місяців")){
                 Term = Integer.parseInt(DataLines[i+1].replace("\r", ""));
             }
-            if(DataLines[i].startsWith("Р©РѕРјС–СЃСЏС‡РЅР°")){
+            if(DataLines[i].startsWith("Щомісячна")){
                 MonthlyPayment = Double.parseDouble(DataLines[i+1].replace("\r", ""));
             }
         }
 
-            //РѕРЅРѕРІР»СЋС”РјРѕ РґР°РЅС–
+            //оновлюємо дані
         Term--;
         Sum-=MonthlyPayment;
 
-        if(Sum<1){ //СЏРєС‰Рѕ СЃРїР»Р°С‚РёР»Рё
-            DataLines[1] = "РЎРџР›РђР§Р•РќРћ\n";
+        if(Sum<1){ //якщо сплатили
+            DataLines[1] = "СПЛАЧЕНО\n";
         }
-            //Р·Р°РЅРѕСЃРёРјРѕ РЅРѕРІС– РґР°РЅС– Сѓ РјР°СЃРёРІ
+            //заносимо нові дані у масив
         for (int i = 0; i < DataLines.length; i++) {
-            if(DataLines[i].startsWith("Р—Р°Р»РёС€РёР»РѕСЃСЊ")){
+            if(DataLines[i].startsWith("Залишилось")){
                 DataLines[i+1] = Double.toString(Sum) + "\n";
             }
-            if(DataLines[i].startsWith("РњС–СЃСЏС†С–РІ")){
+            if(DataLines[i].startsWith("Місяців")){
                 DataLines[i+1] = Term + "\n";
             }
         }
-            //Р·Р°РїРёСЃСѓС”РјРѕ Сѓ С„Р°Р№Р»
+            //записуємо у файл
         BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
         for (String dataLine : DataLines) {
             writer.write(dataLine);
@@ -66,77 +66,77 @@ public class FileActions {
         writer.close();
     }
 
-        //РјРµС‚РѕРґ РґРѕСЃС‚СЂРѕРєРѕРІРѕС— СЃРїР»Р°С‚Рё РїРѕ РєСЂРµРґРёС‚Сѓ
-        //РјРѕР¶РЅР° СЃРїР»Р°С‚Рё РїРѕРІРЅС–СЃС‚СЋ , Р°Р±Рѕ РјРµРЅС€Рµ 40% РІС–Рґ СЃСѓРјРё С‰Рѕ Р·Р°Р»РёС€РёР»Р°СЃСЊ
+        //метод дострокової сплати по кредиту
+        //можна сплати повністю , або менше 40% від суми що залишилась
     public void earlyLoanRepayment(String filepath, double Payment) throws IOException {
-        String data = readFile(filepath); //Р·С‡РёСѓС‚С”РјРѕ С„Р°Р№Р» РєСЂРµРґРёС‚Сѓ
-        String[] DataLines = data.split("\n", -1); // С„РѕСЂРјСѓС”РјРѕ РјР°СЃРёРІ СЂСЏРґРєС–РІ
+        String data = readFile(filepath); //зчиутємо файл кредиту
+        String[] DataLines = data.split("\n", -1); // формуємо масив рядків
 
-        double limit = 0.4; //40% Р»С–РјС–С‚ РґРѕСЃС‚СЂРѕРєРѕРІРѕС— СЃРїР»Р°С‚Рё
+        double limit = 0.4; //40% ліміт дострокової сплати
 
         int  Term = 0;
         double Sum = 0, MonthlyPayment = 0, OverPayment = 0, Percent = 0;
-            //СЏРєС‰Рѕ СѓР¶Рµ СЃРїР»Р°С‡РµРЅРѕ
-        if (DataLines[1].replace("\r", "").compareTo("РЎРџР›РђР§Р•РќРћ") == 0) {
-            System.out.println("\nР¦РµР№ РљСЂРµРґРёС‚ СѓР¶Рµ СЃРїР»Р°С‡РµРЅРѕ\n");
+            //якщо уже сплачено
+        if (DataLines[1].replace("\r", "").compareTo("СПЛАЧЕНО") == 0) {
+            System.out.println("\nЦей Кредит уже сплачено\n");
             return;
         }
-            //Р·С‡РёС‚СѓС”РјРѕ РґР°РЅС– Р· РјР°СЃРёРІСѓ
+            //зчитуємо дані з масиву
         for (int i = 0; i < DataLines.length; i++) {
-            if(DataLines[i].startsWith("Р—Р°Р»РёС€РёР»РѕСЃСЊ")){
+            if(DataLines[i].startsWith("Залишилось")){
                 Sum = Double.parseDouble(DataLines[i+1].replace("\r", ""));
             }
-            if(DataLines[i].startsWith("РњС–СЃСЏС†С–РІ")){
+            if(DataLines[i].startsWith("Місяців")){
                 Term = Integer.parseInt(DataLines[i+1].replace("\r", ""));
             }
-            if(DataLines[i].startsWith("РџРµСЂРµРїР»Р°С‚Р°")){
+            if(DataLines[i].startsWith("Переплата")){
                 OverPayment = Double.parseDouble(DataLines[i+1].replace("\r", ""));
             }
         }
-            //РѕР±СЂР°С…РѕРІСѓСЋ РІС–РґСЃРѕС‚РѕРє РІСЂСѓС‡РЅСѓ
+            //обраховую відсоток вручну
         Percent = (OverPayment * 100 * 12) / ((Sum - OverPayment) * Term);
 
-            //СЃСѓРјР° Р·Р°РІРµР»РёРєР°
+            //сума завелика
         if (Sum < Payment) {
-            System.out.println("РЎСѓРјР° РґРѕСЃС‚СЂРѕРєРѕРІРѕС— РѕРїР»Р°С‚Рё Р·Р°РЅР°РґС‚Рѕ РІРµР»РёРєР°!\n"+
-                    "Р’РѕРЅР° РїРѕРІРёРЅРЅР° СЃРєР»Р°РґР°С‚Рё РЅРµ Р±С–Р»СЊС€Рµ " + limit*100 + "% РІС–Рґ СЃСѓРјРё С‰Рѕ Р·Р°Р»РёС€РёР»Р°СЃСЊ(" + (int)Sum*limit + ")");
+            System.out.println("Сума дострокової оплати занадто велика!\n"+
+                    "Вона повинна складати не більше " + limit*100 + "% від суми що залишилась(" + (int)Sum*limit + ")");
             return;
         }
-            //СЏРєС‰Рѕ РѕРїР»Р°С‡СѓС”С‚СЊСЃСЏ РїРѕРІРЅС–СЃС‚СЋ
+            //якщо оплачується повністю
         if (Sum <= Payment+1 && Sum>=Payment) {
-            DataLines[1] = "РЎРџР›РђР§Р•РќРћ\n";
+            DataLines[1] = "СПЛАЧЕНО\n";
             Sum = 0;
         }else
-            //СЏРєС‰Рѕ РѕРїР»Р°С‚Р° Р±С–Р»СЊС€Рµ 40% Р°Р»Рµ РЅРµ РїРѕРІРЅР°
+            //якщо оплата більше 40% але не повна
             if(Sum<Payment/limit){
-            System.out.println("РЎСѓРјР° РґРѕСЃС‚СЂРѕРєРѕРІРѕС— РѕРїР»Р°С‚Рё Р·Р°РЅР°РґС‚Рѕ РІРµР»РёРєР°!\n"+
-                    "Р’РѕРЅР° РїРѕРІРёРЅРЅР° СЃРєР»Р°РґР°С‚Рё РЅРµ Р±С–Р»СЊС€Рµ " + limit*100 + "% РІС–Рґ СЃСѓРјРё С‰Рѕ Р·Р°Р»РёС€РёР»Р°СЃСЊ(" + (int)Sum*limit + ")");
+            System.out.println("Сума дострокової оплати занадто велика!\n"+
+                    "Вона повинна складати не більше " + limit*100 + "% від суми що залишилась(" + (int)Sum*limit + ")");
             return;
         }
-                //СЏРєС‰Рѕ РѕРїР»Р°С‚Р° РјРµРЅС€Рµ 40% РѕР±СЂР°С…РѕРІСѓС”Рј РЅРѕРІС– РґР°РЅС–
+                //якщо оплата менше 40% обраховуєм нові дані
             else{
             Sum -= Payment;
             OverPayment = Sum - Sum / (1 + (Percent * Term / 1200));
             MonthlyPayment = Sum / Term;
         }
 
-            //РѕРЅРѕРІРІР»СЋС”РјРѕ РґР°РЅС– Сѓ РјР°СЃРёРІС–
+            //оноввлюємо дані у масиві
         for (int i = 0; i < DataLines.length; i++) {
-            if(DataLines[i].startsWith("Р—Р°Р»РёС€РёР»РѕСЃСЊ")){
+            if(DataLines[i].startsWith("Залишилось")){
                 DataLines[i+1] = Double.toString(Sum) + "\n";
             }
-            if(DataLines[i].startsWith("РњС–СЃСЏС†С–РІ")){
+            if(DataLines[i].startsWith("Місяців")){
                 DataLines[i+1] = Term + "\n";
             }
-            if(DataLines[i].startsWith("Р©РѕРјС–СЃСЏС‡РЅР°")){
+            if(DataLines[i].startsWith("Щомісячна")){
                 DataLines[i+1] = MonthlyPayment + "\n";
             }
-            if(DataLines[i].startsWith("РџРµСЂРµРїР»Р°С‚Р°")){
+            if(DataLines[i].startsWith("Переплата")){
                 DataLines[i+1] = OverPayment + "\n";
             }
         }
 
-            //Р·Р°РїРёСЃСѓС”РјРѕ РѕРЅРѕРІР»РµРЅС– РґР°РЅС– Сѓ С„Р°Р№Р»
+            //записуємо оновлені дані у файл
         BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
         for (String dataLine : DataLines) {
             writer.write(dataLine);
@@ -145,53 +145,53 @@ public class FileActions {
 
     }
 
-        //РјРµС‚РѕРґ Р·Р±С–Р»СЊС€РµРЅРЅСЏ РєСЂРµРґРёС‚РЅРѕС— Р»С–РЅС–С—
+        //метод збільшення кредитної лінії
     public void increaseCreditLine(String filepath , int Months) throws IOException {
-        String data = readFile(filepath); //Р·С‡РёСѓС‚С”РјРѕ С„Р°Р№Р» РєСЂРµРґРёС‚Сѓ
-        String[] DataLines = data.split("\n", -1); // С„РѕСЂРјСѓС”РјРѕ РјР°СЃРёРІ СЂСЏРґРєС–РІ
+        String data = readFile(filepath); //зчиутємо файл кредиту
+        String[] DataLines = data.split("\n", -1); // формуємо масив рядків
 
         int  Term = 0;
         double Sum = 0, MonthlyPayment = 0, OverPayment = 0, Percent = 0;
 
-            //СЏРєС‰Рѕ РєСЂРµРґРёС‚ СЃРїР»Р°С‡РµРЅРѕ
-        if (DataLines[1].replace("\r", "").compareTo("РЎРџР›РђР§Р•РќРћ") == 0) {
-            System.out.println("\nР¦РµР№ РљСЂРµРґРёС‚ СѓР¶Рµ СЃРїР»Р°С‡РµРЅРѕ\n");
+            //якщо кредит сплачено
+        if (DataLines[1].replace("\r", "").compareTo("СПЛАЧЕНО") == 0) {
+            System.out.println("\nЦей Кредит уже сплачено\n");
             return;
         }
-            //Р·С‡РёС‚СѓС”РјРѕ РґР°РЅС– Р· РјР°СЃРёРІСѓ
+            //зчитуємо дані з масиву
         for (int i = 0; i < DataLines.length; i++) {
-            if(DataLines[i].startsWith("Р—Р°Р»РёС€РёР»РѕСЃСЊ")){
+            if(DataLines[i].startsWith("Залишилось")){
                 Sum = Double.parseDouble(DataLines[i+1].replace("\r", ""));
             }
-            if(DataLines[i].startsWith("РњС–СЃСЏС†С–РІ")){
+            if(DataLines[i].startsWith("Місяців")){
                 Term = Integer.parseInt(DataLines[i+1].replace("\r", ""));
             }
-            if(DataLines[i].startsWith("РџРµСЂРµРїР»Р°С‚Р°")){
+            if(DataLines[i].startsWith("Переплата")){
                 OverPayment = Double.parseDouble(DataLines[i+1].replace("\r", ""));
             }
         }
-            //Р—Р±С–Р»СЊС€СѓС”РјРѕ РєСЂРµРґРёС‚РЅСѓ Р»С–РЅС–СЋ С– РѕР±С‡РёСЃР»СЋС”РјРѕ РЅРѕРІС– РґР°РЅС–
+            //Збільшуємо кредитну лінію і обчислюємо нові дані
         Percent = (OverPayment * 100 * 12) / ((Sum - OverPayment) * Term);
         Term+=Months;
         OverPayment = Sum - Sum / (1 + (Percent * Term / 1200));
         MonthlyPayment = Sum / Term;
 
-            //РѕРЅРѕРІР»СЋРјРѕ РґР°РЅС– Сѓ РјР°СЃРёРІС– СЂР°РґРєС–РІ
+            //оновлюмо дані у масиві радків
         for (int i = 0; i < DataLines.length; i++) {
-            if(DataLines[i].startsWith("Р—Р°Р»РёС€РёР»РѕСЃСЊ")){
+            if(DataLines[i].startsWith("Залишилось")){
                 DataLines[i+1] = Sum + "\n";
             }
-            if(DataLines[i].startsWith("РњС–СЃСЏС†С–РІ")){
+            if(DataLines[i].startsWith("Місяців")){
                 DataLines[i+1] = Term + "\n";
             }
-            if(DataLines[i].startsWith("Р©РѕРјС–СЃСЏС‡РЅР°")){
+            if(DataLines[i].startsWith("Щомісячна")){
                 DataLines[i+1] = MonthlyPayment + "\n";
             }
-            if(DataLines[i].startsWith("РџРµСЂРµРїР»Р°С‚Р°")){
+            if(DataLines[i].startsWith("Переплата")){
                 DataLines[i+1] = OverPayment + "\n";
             }
         }
-            //Р·Р°РїРёСЃСѓС”РјРѕ РґР°РЅС– Сѓ С„Р°Р№Р»
+            //записуємо дані у файл
         BufferedWriter writer = new BufferedWriter(new FileWriter(filepath));
         for (String dataLine : DataLines) {
             writer.write(dataLine);

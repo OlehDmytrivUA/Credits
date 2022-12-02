@@ -15,18 +15,18 @@ public class EarlyLoanRepaymentCommand implements MenuItem {
     @Override
     public void execute(User user) throws IOException {
         int CreditID = -1;
-        System.out.print("Р’РІРµРґС–С‚СЊ ID РІР°С€РѕРіРѕ РєСЂРµРґРёС‚Сѓ:");
-        CreditID = scan.nextInt(); // РІРІРѕРґРёРјРѕ ID РєСЂРµРґРёС‚Сѓ
+        System.out.print("Введіть ID вашого кредиту:");
+        CreditID = scan.nextInt(); // вводимо ID кредиту
 
         File file = new File("C:\\CreditData\\Credits\\Credit_" + CreditID + ".txt");
 
         if(file.exists()) {
-            System.out.print("Р’РІРµРґС–С‚СЊ СЃСѓРјСѓ РґРѕСЃРїСЂРѕРєРѕРІРѕРіРѕ РїРѕРіР°С€РµРЅРЅСЏ:");
-            double Sum = scan.nextDouble(); // РІРІРѕРґРёРјРѕ СЃСѓРјСѓ
-                // РґРѕСЃС‚СЂРѕРєРѕРІРѕ СЃРїР»Р°С‡СѓС”РјРѕ РїРѕ РєСЂРµРґРёС‚Сѓ
+            System.out.print("Введіть суму доспрокового погашення:");
+            double Sum = scan.nextDouble(); // вводимо суму
+                // достроково сплачуємо по кредиту
             fileActions.earlyLoanRepayment("C:\\CreditData\\Credits\\Credit_" + CreditID + ".txt", Sum);
         }else{
-            System.out.println("РљСЂРµРґРёС‚Сѓ Р· РґР°РЅРёРј ID РЅРµ С–СЃРЅСѓС”");
+            System.out.println("Кредиту з даним ID не існує");
         }
     }
 }

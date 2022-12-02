@@ -11,25 +11,25 @@ public class DisplayCreditsCommand implements MenuItem {
     CreditFile creditFile = new CreditFile();
     @Override
     public void execute(User user){
-        System.out.println("Р’РёРІС–Рґ РїСЂРѕРїРѕР·РёС†С–Р№:");
+        System.out.println("Вивід пропозицій:");
         Credits credits = new Credits();
-        CreditInfo[] creditInfo = credits.fillBankInfoArray(); // С„РѕСЂРјСѓС”РјРѕ РјР°СЃРёРІ РєСЂРµРґРёС‚С–РІ
-        credits.printBankInfo(creditInfo); // РґСѓСЂРєСѓС”РјРѕ СѓСЃС– РєСЂРµРґРёС‚Рё
+        CreditInfo[] creditInfo = credits.fillBankInfoArray(); // формуємо масив кредитів
+        credits.printBankInfo(creditInfo); // дуркуємо усі кредити
         System.out.println('\n');
 
-        //РґР°С”РјРѕ Р·РјРѕРіСѓ РѕРґСЂР°Р·Сѓ РѕС„РѕСЂРјРёС‚Рё РєСЂРµРґРёС‚
-        System.out.println("Р—Р°РїРѕРІРЅРёС‚Рё Р°РЅРєРµС‚Сѓ РґР»СЏ РѕС„РѕСЂРјР»РµРЅРЅСЏ РєСЂРµРґРёС‚Сѓ?");
-        System.out.println("1 - РўР°Рє");
-        System.out.println("2 - РќС–");
+        //даємо змогу одразу оформити кредит
+        System.out.println("Заповнити анкету для оформлення кредиту?");
+        System.out.println("1 - Так");
+        System.out.println("2 - Ні");
         int confirm = scan.nextInt();
         switch (confirm) {
             case 1:
-                creditFile.CreateCreditFile(user); //РѕС„РѕСЂРјР»СЏС”РјРѕ РєСЂРµРґРёС‚
+                creditFile.CreateCreditFile(user); //оформляємо кредит
                 break;
             case 2:
                 break;
             default:
-                System.out.println("РќРµРІС–СЂРЅРёР№ СЃРёРјРІРѕР», РІРІРµРґС–С‚СЊ С‰Рµ СЂР°Р·:");
+                System.out.println("Невірний символ, введіть ще раз:");
         }
     }
 }

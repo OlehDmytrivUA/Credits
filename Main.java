@@ -15,20 +15,20 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         MainMenu mainMenu = new MainMenu();
 
-        User user = LoginUser(); //Р°РІС‚РѕСЂРёР·Р°С†С–СЏ
+        User user = LoginUser(); //авторизація
 
-        while (true) {  //С†РёРєР» РѕСЃРЅРѕРІРЅРѕРіРѕ РјРµРЅСЋ
-            System.out.println("1 - РџСЂРѕРїРѕР·РёС†С–С— Р±Р°РЅРєС–РІ");
-            System.out.println("2 - РџРѕС€СѓРє РєСЂРµРґРёС‚С–РІ");
-            System.out.println("3 - РњРѕС— РєСЂРµРґРёС‚Рё");
-            System.out.println("4 - РњС–СЃСЏС‡РЅР° СЃРїР»Р°С‚Р° РїРѕ РєСЂРµРґРёС‚Сѓ");
-            System.out.println("5 - Р”РѕСЃС‚СЂРѕРєРѕРІРµ РїРѕРіР°С€РµРЅРЅСЏ РєСЂРµРґРёС‚Сѓ");
-            System.out.println("6 - Р—Р±С–Р»СЊС€РµРЅРЅСЏ РєСЂРµРґРёС‚РЅРѕС— Р»С–РЅС–С—");
-            System.out.println("7 - Р’РёС…С–Рґ");
+        while (true) {  //цикл основного меню
+            System.out.println("    \n--Menu--\n1 - Пропозиції банків");
+            System.out.println("2 - Пошук кредитів");
+            System.out.println("3 - Мої кредити");
+            System.out.println("4 - Місячна сплата по кредиту");
+            System.out.println("5 - Дострокове погашення кредиту");
+            System.out.println("6 - Збільшення кредитної лінії");
+            System.out.println("7 - Вихід");
 
-            System.out.print("Р’РІРµРґС–С‚СЊ РїСѓРЅРєС‚ РјРµРЅСЋ:");
+            System.out.print("Введіть пункт меню:");
             String command = scan.next();
-            mainMenu.execute(command, user);// РїРµСЂРµРґР°СЋ РєРѕРјР°РЅРґСѓ С– РґР°РЅС– РєРѕСЂРёСЃС‚СѓРІР°С‡Р°
+            mainMenu.execute(command, user);// передаю команду і дані користувача
         }
     }
 
@@ -38,7 +38,7 @@ public class Main {
         User user = new User();
         int choice = -1;
 
-        while (true) { // Р°С‚РѕСЂРёР·СѓРІР°С‚РёСЃСЏ Р°Р±Рѕ СЃС‚РІРѕСЂРёС‚Рё Р°РєР°СѓРЅС‚
+        while (true) { // аторизуватися або створити акаунт
             try {
                 System.out.print("Log-in (1) or sing-up? (2)\nChoice:");
                 choice = scan.nextInt();
@@ -54,8 +54,8 @@ public class Main {
             scan.next();
         }
 
-        if (choice == 1) {  // СЏРєС‰Рѕ Р°РІС‚РѕСЂРёР·СѓРІР°С‚РёСЃСЏ
-            while (true) {      // С†РёРєР» Р°РІС‚РѕСЂРёР·Р°С†С–С—
+        if (choice == 1) {  // якщо авторизуватися
+            while (true) {      // цикл авторизації
                 System.out.print("\tPlease log-in\nUserName:");
                 String username = scan.next();
                 System.out.print("Password:");
@@ -64,7 +64,7 @@ public class Main {
                 File file;
                 file = new File("C:\\CreditData\\Users\\" + username + "_" + password + ".txt");
 
-                if (!file.exists()) { // СЏРєС‰Рѕ С„Р°Р№Р» РЅРµ Р·РЅР°Р№РґРµРЅРѕ , С‚РѕР±С‚Рѕ РЅРµ РјР°С” РґР°РЅРѕРіРѕ РєРѕСЂРёСЃС‚СѓРІР°С‡Р°
+                if (!file.exists()) { // якщо файл не знайдено , тобто не має даного користувача
                     System.out.print("There no account find\nCreateAcount-1\nTry Again-2\nExit-0\n");
                     while (true) {
                         try {
@@ -77,12 +77,12 @@ public class Main {
                         }
                         switch (choice) {
                             case 1:
-                                SingUpUser();  //СЃС‚РІРѕСЂРёС‚Рё Р°РєР°СѓРЅС‚
+                                SingUpUser();  //створити акаунт
                                 break;
                             case 2:
-                                break;         //СЃРїСЂРѕР±СѓРІР°С‚Рё Р·РЅРѕРІСѓ Р°РІС‚РѕСЂРёР·СѓРІР°С‚РёСЃСЏ
+                                break;         //спробувати знову авторизуватися
                             case 0:
-                                System.exit(0);  // Р·Р°РІРµСЂС€РёС‚Рё СЂРѕР±РѕС‚Сѓ РїСЂРѕРіСЂР°РјРё
+                                System.exit(0);  // завершити роботу програми
                             default:
                                 System.out.print("Incorect choice\n");
                                 System.out.print("CreateAcount-1\nTry Again-2\nExit-0\n");
@@ -90,12 +90,12 @@ public class Main {
                         }
                         break;
                     }
-                }else {         // СЏРєС‰Рѕ С„Р°Р№Р» С–СЃРЅСѓС” , С‚РѕР±С‚Рѕ РєРѕСЂРёСЃС‚СѓРІР°С‡ Р·Р°СЂРµС”СЃС‚СЂРѕРІР°РЅРёР№
+                }else {         // якщо файл існує , тобто користувач зареєстрований
                     try {
                         String UserData = fileActions.readFile("C:\\CreditData\\Users\\" + username + "_" + password + ".txt");
                         String[] lines = UserData.split("\n");
-                        for (int i = 0; i < lines.length; i++) {                    //С†РёРєР» Р·С‡РёС‚СѓРІР°РЅРЅСЏ РґР°РЅРёС… РєРѕСЂРёСЃС‚СѓРІР°С‡Р° Р·
-                            if(lines[i].startsWith("FirstName")){                           // С„Р°Р№Р»Сѓ РґР»СЏ РІРёРєРѕСЂРёСЃС‚Р°РЅРЅСЏ
+                        for (int i = 0; i < lines.length; i++) {                    //цикл зчитування даних користувача з
+                            if(lines[i].startsWith("FirstName")){                           // файлу для використання
                                 user.setFirstName(lines[i+1].replace("\r", ""));
                                 continue;
                             }
@@ -117,12 +117,12 @@ public class Main {
                         }
                     }
                     catch (IOException ex){
-                        System.out.println("РџСЂРѕР±Р»РµРјРё Р· РѕС‚СЂРёРјР°РЅРЅСЏРј РґР°РЅРёС… РїСЂРѕ РєРѕСЂРёСЃС‚СѓРІР°С‡Р°");
+                        System.out.println("Проблеми з отриманням даних про користувача");
                     }
                     break;
                 }
             }
-        } else if (choice == 2) {  // СЏРєС‰Рѕ Р·Р°СЂРµС”СЃС‚СѓСЂРІР°С‚РёСЃСЏ
+        } else if (choice == 2) {  // якщо зареєстурватися
             SingUpUser();
         }
         return user;
@@ -134,7 +134,7 @@ public class Main {
         Matcher matcher;
         File file = null;
 
-        while (true) {   // С†РёРєР» СЂРµС”СЃС‚СЂР°С†С–С—
+        while (true) {   // цикл реєстрації
             System.out.print("FirstName:");
             String FirstName = scan.next();
             System.out.print("LastName:");
@@ -147,23 +147,23 @@ public class Main {
             String PassWord = scan.next();
             matcher = CreditCardPattern.matcher(CreditCard);
 
-            if (matcher.matches()) {  // СЏРєС‰Рѕ РїСЂР°РІРёР»СЊРЅРёР№ С„РѕСЂРјР°С‚ РєР°СЂС‚РѕС‡РєРё
+            if (matcher.matches()) {  // якщо правильний формат карточки
                 file = new File("C:\\CreditData\\Users\\" + UserName + "_" + PassWord + ".txt");
             } else {
                 System.out.println("Incorrect Credit card (xxxx-xxxx-xxxx-xxxx)");
                 continue;
             }
-            if (file.exists()) {  // СЏРєС‰Рѕ С‚Р°РєРёР№ РєРѕСЂРёСЃС‚СѓРІР°С‡ СѓР¶Рµ С–СЃРЅСѓС”
+            if (file.exists()) {  // якщо такий користувач уже існує
                 System.out.println("This UserName is already taken, try again");
             }else {
                 try {
-                    file.createNewFile();  // СЃС‚РІРѕСЂРµРЅРЅСЏ С„Р°Р№Р»Сѓ РєРѕСЂРёСЃС‚СѓРІР°С‡
+                    file.createNewFile();  // створення файлу користувач
                 }catch (IOException ex){
-                    System.out.println("РќРµ РІРґР°Р»РѕСЃСЏ Р·Р°СЂРµС”СЃС‚СЂСѓРІР°С‚Рё РєРѕСЂРёСЃС‚СѓРІР°С‡Р°");
+                    System.out.println("Не вдалося зареєструвати користувача");
                 }
                 try {
                     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-                    writer.write("FirstName:\n");    // Р·Р°РїРёСЃ РґР°РЅРёС… Сѓ С„Р°Р№Р»
+                    writer.write("FirstName:\n");    // запис даних у файл
                     writer.write(FirstName);
                     writer.write("\nLastName:\n");
                     writer.write(LastName);
@@ -181,7 +181,7 @@ public class Main {
                 }
             }
         }
-        LoginUser();  // РїРѕРІРµСЂРЅРµРЅРЅСЏ РґРѕ Р°РІС‚РѕСЂРёР·Р°С†С–С—
+        LoginUser();  // повернення до авторизації
     }
 }
 

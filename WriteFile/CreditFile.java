@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class CreditFile {
 
-    public void CreateCreditFile(User user){ // РјРµС‚РѕРґ СЃС‚РІРѕРµРЅРЅСЏ С„Р°Р№Р»Сѓ РєСЂРµРґРёС‚Сѓ
+    public void CreateCreditFile(User user){ // метод ствоення файлу кредиту
         Scanner scan = new Scanner(System.in);
         Credits credits = new Credits();
         CreditInfo[] CredInf = credits.fillBankInfoArray();
@@ -18,12 +18,12 @@ public class CreditFile {
         BufferedWriter bw = null;
         PrintWriter pw = null;
 
-        System.out.println("РЁР°РЅРѕРІРЅРёР№ " + user.getFirstName() + " " + user.getLastName() + ", РІРІРµРґС–С‚СЊ ID РєСЂРµРґРёС‚Сѓ СЏРєРёР№ РІРё Р±Р°Р¶Р°С”С‚Рµ РѕР±СЂР°С‚Рё:");
+        System.out.println("Шановний " + user.getFirstName() + " " + user.getLastName() + ", введіть ID кредиту який ви бажаєте обрати:");
 
         while (true) {
-            creditID = scan.next();  // РѕР±РёСЂР°С”РјРѕ РєСЂРµРґРёС‚ Р·Р° ID
+            creditID = scan.next();  // обираємо кредит за ID
 
-            for (CreditInfo creditInfo : CredInf) { // РІРёРІРѕРґРёРјРѕ С– Р·С‡РёС‚СѓС”РјРѕ РґР°РЅС– РїСЂРѕ РѕР±СЂР°РЅРёР№ РєСЂРµРґРёС‚
+            for (CreditInfo creditInfo : CredInf) { // виводимо і зчитуємо дані про обраний кредит
                 if (creditInfo.getCreditID().equals(creditID)) {
                     System.out.println(creditInfo);
                     creditID = creditInfo.getCreditID();
@@ -41,42 +41,42 @@ public class CreditFile {
             if(count>0){
                 break;
             }
-            System.out.println("РќРµРјР°С” С‚Р°РєРѕРіРѕ ID, СЃРїСЂРѕР±СѓР№С‚Рµ С‰Рµ СЂР°Р·: ");
+            System.out.println("Немає такого ID, спробуйте ще раз: ");
         }
 
-            // РІРІРѕРґРёРјРѕ СЃСѓРјСѓ РєСЂРµРґРёС‚Сѓ
-        System.out.println("Р’РІРµРґС–С‚СЊ СЃСѓРјСѓ РєСЂРµРґРёС‚Сѓ(РІ РіСЂРёРІРЅСЏС…):");
+            // вводимо суму кредиту
+        System.out.println("Введіть суму кредиту(в гривнях):");
         int sum = scan.nextInt();
         while (sum < creditSumMin || sum > creditSumMax) {
-            System.out.println("РЎСѓРјР° РєСЂРµРґРёС‚Сѓ РЅР°РґС‚Рѕ РІРµР»РёРєР°/РјР°Р»Р°, РІРІРµРґС–С‚СЊ СЃСѓРјСѓ РєСЂРµРґРёС‚Сѓ С‰Рµ СЂР°Р·: ");
+            System.out.println("Сума кредиту надто велика/мала, введіть суму кредиту ще раз: ");
             sum = scan.nextInt();
 
         }
 
-            //РІРІРѕРґРёРјРѕ С‚РµСЂРјС–РЅ РєСЂРµРґРёС‚Сѓ
-        System.out.println("Р’РІРµРґС–С‚СЊ С‚РµСЂРјС–РЅ РєСЂРµРґРёС‚Сѓ(РІ РјС–СЃСЏС†СЏС…):");
+            //вводимо термін кредиту
+        System.out.println("Введіть термін кредиту(в місяцях):");
         int term = scan.nextInt();
         while (term < creditTermMin || term > creditTermMax) {
-            System.out.println("РўРµСЂРјС–РЅ РєСЂРµРґРёС‚Сѓ РЅР°РґС‚Рѕ РІРµР»РёРєРёР№/РјР°Р»РёР№, РІРІРµРґС–С‚СЊ С‚РµСЂРјС–РЅ РєСЂРµРґРёС‚Сѓ С‰Рµ СЂР°Р·: ");
+            System.out.println("Термін кредиту надто великий/малий, введіть термін кредиту ще раз: ");
             term = scan.nextInt();
         }
 
-            // РѕР±СЂР°С…РѕРІСѓС”РјРѕ РїРµСЂРµРїР»РїС‚Сѓ Р·Р° РєСЂРµРґРёС‚РѕРј С– РјС–СЃСЏС‡РЅРёР№ РїР»Р°С‚С–Р¶ Р· СѓСЂР°С…СѓРІР°РЅРЅСЏРј РІС–РґСЃРѕС‚РєСѓ СЂС–С‡РЅРёС…
+            // обраховуємо переплпту за кредитом і місячний платіж з урахуванням відсотку річних
         overpayment = (percents*sum*term/12)/100;
         monthlyFee = (sum+overpayment)/term;
-        System.out.println("Р©РѕРјС–СЃСЏС‡РЅР° РІРёРїР»Р°С‚Р° СЃС‚Р°РЅРѕРІРёС‚СЊ: " + (double) ((int) (monthlyFee * 100)) / 100 + "РіСЂРЅ\n");
-        System.out.println("РџРµСЂРµРїР»Р°С‚Р° РїРѕ РєСЂРµРґРёС‚Сѓ СЃС‚Р°РЅРѕРІРёС‚СЊ: " + (double) ((int) (overpayment * 100)) / 100 + "РіСЂРЅ\n");
+        System.out.println("Щомісячна виплата становить: " + (double) ((int) (monthlyFee * 100)) / 100 + "грн\n");
+        System.out.println("Переплата по кредиту становить: " + (double) ((int) (overpayment * 100)) / 100 + "грн\n");
 
-            // СЃС‚РІРѕСЂСЋС”РјРѕ С„Р°Р№Р» РґР»СЏ РєСЂРµРґРёС‚Сѓ
+            // створюємо файл для кредиту
         Random rand = new Random();
         try {
             int Id = -1;
             while (true) {
-                Id = rand.nextInt(100000); // РіРµРЅРµСЂСѓС”РјРѕ ID
+                Id = rand.nextInt(100000); // генеруємо ID
                 credit = new File("C:\\CreditData\\Credits\\Credit_" + Id + ".txt");
                 if (!credit.exists()) {
                     credit.createNewFile();
-                    try {  // РґРѕРїРёСЃСѓР¶РјРѕ РґРѕ С„Р°Р№Р»Сѓ РєРѕСЂРёСЃС‚СѓРІР°С‡Р° ID СЃС‚РІРѕСЂРµРЅРѕРіРѕ РєСЂРµРґРёС‚Сѓ
+                    try {  // дописужмо до файлу користувача ID створеного кредиту
                         fw = new FileWriter("C:\\CreditData\\Users\\" + user.getUserName() + "_" + user.getPassword() + ".txt", true);
                         bw = new BufferedWriter(fw);
                         pw = new PrintWriter(bw);
@@ -94,7 +94,7 @@ public class CreditFile {
                 break;
             }
 
-                //С„РѕСЂРјСѓС”РјРѕ СЃС‚СЂС–РЅРіРё РґР»СЏ С„Р°Р№Р»Сѓ
+                //формуємо стрінги для файлу
             String CreditID = Integer.toString(Id);
             String SumStr = Double.toString(sum);
             String SumWithOverpaymentStr = Double.toString(sum+overpayment);
@@ -105,32 +105,32 @@ public class CreditFile {
             String creditTermMinStr = Integer.toString(creditTermMin);
             String percentsStr = Double.toString(percents);
 
-                // Р·Р°РїРёСЃСѓС”РјРѕ РґР°РЅС– Сѓ С„Р°Р№Р»
-            System.out.println("ID РІР°С€РѕРіРѕ РєСЂРµРґРёС‚Сѓ - "+Id);
+                // записуємо дані у файл
+            System.out.println("ID вашого кредиту - "+Id);
             PrintWriter writer = new PrintWriter(credit);
 
-            writer.append("РљСЂРµРґРёС‚:").append(CreditID).append(" |").append(SumStr).append("РіСЂРЅ ").append(termStr).append("РјС–СЃ").append("\n\n");
+            writer.append("Кредит:").append(CreditID).append(" |").append(SumStr).append("грн ").append(termStr).append("міс").append("\n\n");
 
-            writer.append("Р‘Р°РЅРє: ").append(bankName).append(" ID: ").append(creditID).append(String.valueOf('\n'));
-            writer.append("РќР°Р·РІР° РєСЂРµРґРёС‚Сѓ: ").append(creditName).append(String.valueOf('\n'));
-            writer.append(creditSumMinStr).append(String.valueOf('-')).append(creditSumMaxStr).append("РіСЂРЅ  ");
-            writer.append(creditTermMinStr).append(String.valueOf('-')).append(creditTermMaxStr).append("РјС–СЃ  ");
+            writer.append("Банк: ").append(bankName).append(" ID: ").append(creditID).append(String.valueOf('\n'));
+            writer.append("Назва кредиту: ").append(creditName).append(String.valueOf('\n'));
+            writer.append(creditSumMinStr).append(String.valueOf('-')).append(creditSumMaxStr).append("грн  ");
+            writer.append(creditTermMinStr).append(String.valueOf('-')).append(creditTermMaxStr).append("міс  ");
             writer.append(percentsStr).append("%\n\n");
 
-            writer.append("РЎС‚Р°С‚СѓСЃ\n");
-            writer.append("Р—Р°Р»РёС€РёР»РѕСЃСЊ СЃРїР»Р°С‚РёС‚Рё(РіСЂРЅ):\n").append(SumWithOverpaymentStr).append("\n");
-            writer.append("РњС–СЃСЏС†С–РІ:\n").append(termStr).append("\n");
-            writer.append("Р©РѕРјС–СЃСЏС‡РЅР° РІРёРїР»Р°С‚Р°(РіСЂРЅ):\n").append(String.valueOf((double) ((int) (monthlyFee * 100)) / 100)).append("\n");
-            writer.append("РџРµСЂРµРїР»Р°С‚Р° РїРѕ РєСЂРµРґРёС‚Сѓ(РіСЂРЅ):\n").append(String.valueOf((double) ((int) (overpayment * 100)) / 100)).append("\n\n");
+            writer.append("Статус\n");
+            writer.append("Залишилось сплатити(грн):\n").append(SumWithOverpaymentStr).append("\n");
+            writer.append("Місяців:\n").append(termStr).append("\n");
+            writer.append("Щомісячна виплата(грн):\n").append(String.valueOf((double) ((int) (monthlyFee * 100)) / 100)).append("\n");
+            writer.append("Переплата по кредиту(грн):\n").append(String.valueOf((double) ((int) (overpayment * 100)) / 100)).append("\n\n");
 
-            writer.append("Р†Рј'СЏ: ").append(user.getFirstName()).append(String.valueOf('\n'));
-            writer.append("РџСЂС–Р·РІРёС‰Рµ: ").append(user.getLastName()).append(String.valueOf('\n'));
-            writer.append("РљСЂРµРґРёС‚РЅР° РєР°СЂС‚РєР°:").append(user.getCreditCard()).append(String.valueOf('\n'));
+            writer.append("Ім'я: ").append(user.getFirstName()).append(String.valueOf('\n'));
+            writer.append("Прізвище: ").append(user.getLastName()).append(String.valueOf('\n'));
+            writer.append("Кредитна картка:").append(user.getCreditCard()).append(String.valueOf('\n'));
             writer.append("------------------------------------------------------\n");
             writer.flush();
             writer.close();
 
-            System.out.println("Р”Р°РЅС– РІРЅРµСЃРµРЅРѕ.");
+            System.out.println("Дані внесено.");
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }

@@ -17,33 +17,33 @@ public class SearchCreditTermCommand implements SearchMenuItem {
     private int count = 0;
     @Override
     public int execute(User user) throws IOException {
-        System.out.println("Ð’Ð¸ÐºÐ¾Ð½Ð°Ð½Ð½Ñ Ð¿Ð¾ÑˆÑƒÐºÑƒ Ð¿Ð¾ Ñ‚ÐµÑ€Ð¼Ñ–Ð½Ñƒ ÐºÑ€ÐµÐ´Ð¸Ñ‚Ñƒ");
-        System.out.println("Ð’Ð²ÐµÐ´Ñ–Ñ‚ÑŒ Ñ‚ÐµÑ€Ð¼Ñ–Ð½ ÐºÑ€ÐµÐ´Ð¸Ñ‚Ñƒ(Ð² Ð¼Ñ–ÑÑÑ†ÑÑ…):");
-            // Ð²Ð²Ð¾Ð´Ð¸Ð¼Ð¾ Ð¿Ð¾Ñ‚Ñ€Ñ–Ð±Ð½Ð¸Ð¹ Ñ‚ÐµÑ€Ð¼Ñ–Ð½
+        System.out.println("Âèêîíàííÿ ïîøóêó ïî òåðì³íó êðåäèòó");
+        System.out.println("Ââåä³òü òåðì³í êðåäèòó(â ì³ñÿöÿõ):");
+            // ââîäèìî ïîòð³áíèé òåðì³í
         int creditTerm = in.nextInt();
 
         for (CreditInfo creditInfo : CredInf) {
-                // Ð²Ð¸Ð²Ð¾Ð´Ð¸Ð¼Ð¾ Ð²Ñ–Ð´Ð¿Ð¾Ð²Ñ–Ð´Ð½Ñ– ÐºÑ€ÐµÐ´Ð¸Ñ‚Ð¸
+                // âèâîäèìî â³äïîâ³äí³ êðåäèòè
             if (creditTerm >= creditInfo.getCreditTermMin() && creditTerm <= creditInfo.getCreditTermMax()) {
                 System.out.println(creditInfo);
                 count++;
             }
         }
-        if (count == 0) System.out.println("ÐÐµÐ¼Ð°Ñ” Ñ‚Ð°ÐºÐ¾Ð³Ð¾ ÐºÑ€ÐµÐ´Ð¸Ñ‚Ñƒ");
+        if (count == 0) System.out.println("Íåìàº òàêîãî êðåäèòó");
 
-            //ÐœÐ¾Ð¶Ð»Ð¸Ð²Ñ–ÑÑ‚ÑŒ ÑÑ‚Ð²Ð¾Ñ€Ð¸Ñ‚Ð¸ ÐºÑ€ÐµÐ´Ð¸Ñ‚ Ð¿Ñ–ÑÑÐ» Ð¿Ð¾ÑˆÑƒÐºÑƒ
-        System.out.println("Ð—Ð°Ð¿Ð¾Ð²Ð½Ð¸Ñ‚Ð¸ Ð°Ð½ÐºÐµÑ‚Ñƒ Ð´Ð»Ñ Ð¾Ñ„Ð¾Ñ€Ð¼Ð»ÐµÐ½Ð½Ñ ÐºÑ€ÐµÐ´Ð¸Ñ‚Ñƒ?");
-        System.out.println("1 - Ð¢Ð°Ðº");
-        System.out.println("2 - ÐÑ–");
+            //Ìîæëèâ³ñòü ñòâîðèòè êðåäèò ï³ñÿë ïîøóêó
+        System.out.println("Çàïîâíèòè àíêåòó äëÿ îôîðìëåííÿ êðåäèòó?");
+        System.out.println("1 - Òàê");
+        System.out.println("2 - Í³");
         int confirm = in.nextInt();
         switch (confirm) {
             case 1:
-                creditfile.CreateCreditFile(user); // ÑÑ‚Ð²Ð¾Ñ€ÐµÐ½Ð½Ñ ÐºÑ€ÐµÐ´Ð¸Ñ‚Ñƒ
+                creditfile.CreateCreditFile(user); // ñòâîðåííÿ êðåäèòó
                 break;
             case 2:
                 break;
             default:
-                System.out.println("ÐÐµÐ²Ñ–Ñ€Ð½Ð¸Ð¹ ÑÐ¸Ð¼Ð²Ð¾Ð», Ð²Ð²ÐµÐ´Ñ–Ñ‚ÑŒ Ñ‰Ðµ Ñ€Ð°Ð·:");
+                System.out.println("Íåâ³ðíèé ñèìâîë, ââåä³òü ùå ðàç:");
         }
         return 1;
     }

@@ -15,16 +15,16 @@ public class MonthlyPaymentCommand implements MenuItem {
     @Override
     public void execute(User user) throws SQLException, ClassNotFoundException, IOException {
         int CreditID = -1;
-        System.out.print("Р’РІРµРґС–С‚СЊ ID РІР°С€РѕРіРѕ РєСЂРµРґРёС‚Сѓ:");
-        CreditID = scan.nextInt();      //РІРІРѕРґРёРјРѕ ID РєСЂРµРґРёС‚Сѓ
+        System.out.print("Введіть ID вашого кредиту:");
+        CreditID = scan.nextInt();      //вводимо ID кредиту
 
         File file = new File("C:\\CreditData\\Credits\\Credit_" + CreditID + ".txt");
 
         if(file.exists()) {
-            // РІРёРєРѕРЅСѓС”РјРѕ РјС–СЃСЏС‡РЅСѓ СЃРїР»Р°С‚Сѓ
+            // виконуємо місячну сплату
             fileActions.MonthlyPayment("C:\\CreditData\\Credits\\Credit_" + CreditID + ".txt");
         }else{
-            System.out.println("РљСЂРµРґРёС‚Сѓ Р· С†РёРј ID РЅРµ С–СЃРЅСѓС”");
+            System.out.println("Кредиту з цим ID не існує");
         }
     }
 }

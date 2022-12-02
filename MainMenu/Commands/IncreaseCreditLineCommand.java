@@ -14,18 +14,18 @@ public class IncreaseCreditLineCommand implements MenuItem {
     @Override
     public void execute(User user) throws IOException {
         int CreditID = -1;
-        System.out.print("Р’РІРµРґС–С‚СЊ ID РІР°С€РѕРіРѕ РєСЂРµРґРёС‚Сѓ:");
-        CreditID = scan.nextInt(); // РІРІРѕРґРёРјРѕ ID РєСЂРµРґРёС‚Сѓ
+        System.out.print("Введіть ID вашого кредиту:");
+        CreditID = scan.nextInt(); // вводимо ID кредиту
 
         File file = new File("C:\\CreditData\\Credits\\Credit_" + CreditID + ".txt");
 
         if(file.exists()) {
-            System.out.print("Р’РІРµРґС–С‚СЊ С‚РµСЂРјС–РЅ Р·Р±С–Р»СЊС€РµРЅРЅСЏ РєСЂРµРґРёС‚РЅРѕС— Р»С–РЅС–С—(РјС–СЃ):");
-            int Term = scan.nextInt();  // РІРІРѕРґРёРјРѕ С‚РµСЂРјС–РЅ
-                //Р·Р±С–Р»СЊС€СѓС”РјРѕ РєСЂРµРґРёС‚РЅСѓ Р»С–РЅС–СЋ
+            System.out.print("Введіть термін збільшення кредитної лінії(міс):");
+            int Term = scan.nextInt();  // вводимо термін
+                //збільшуємо кредитну лінію
             fileActions.increaseCreditLine("C:\\CreditData\\Credits\\Credit_" + CreditID + ".txt", Term);
         }else{
-            System.out.println("РљСЂРµРґРёС‚Сѓ Р· РґР°РЅРёРј ID РЅРµ С–СЃРЅСѓС”");
+            System.out.println("Кредиту з даним ID не існує");
         }
     }
 }

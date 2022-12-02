@@ -7,24 +7,24 @@ import MainMenu.MenuItem;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class SearchCommand implements MenuItem{ //РєР»Р°СЃ РєРѕРјР°РЅРґРё РїРѕС€СѓРєСѓ
+public class SearchCommand implements MenuItem{ //клас команди пошуку
     SearchMenu Menu = new SearchMenu();
     String command;
     Scanner scan = new Scanner(System.in);
     @Override
     public void execute(User user) throws IOException {
         int ret = -1;
-        while(true) {  // С†РёРєР» РјРµРЅСЋ РїРѕС€СѓРєСѓ
-            System.out.println("Р’РёРєРѕРЅР°РЅРЅСЏ РїРѕС€СѓРєСѓ РїРѕ:");
-            System.out.println("1 - Р’РёРєРѕРЅР°РЅРЅСЏ РїРѕС€СѓРєСѓ РїРѕ РІС–РґСЃРѕС‚РєР°С… Сѓ Р±Р°РЅРєСѓ");
-            System.out.println("2 - Р’РёРєРѕРЅР°РЅРЅСЏ РїРѕС€СѓРєСѓ РїРѕ С‚РµСЂРјС–РЅСѓ РєСЂРµРґРёС‚Сѓ");
-            System.out.println("3 - Р’РёРєРѕРЅР°РЅРЅСЏ РїРѕС€СѓРєСѓ РїРѕ СЃСѓРјС– РєСЂРµРґРёС‚Сѓ");
-            System.out.println("4 - РџРѕРІРµСЂРЅСѓС‚РёСЃСЏ РґРѕ РіРѕР»РѕРІРЅРѕРіРѕ РјРµРЅСЋ");
+        while(true) {  // цикл меню пошуку
+            System.out.println("Виконання пошуку по:");
+            System.out.println("1 - Виконання пошуку по відсотках у банку");
+            System.out.println("2 - Виконання пошуку по терміну кредиту");
+            System.out.println("3 - Виконання пошуку по сумі кредиту");
+            System.out.println("4 - Повернутися до головного меню");
 
-            System.out.println("Р’РёР±РµСЂС–С‚СЊ РїСѓРЅРєС‚ РјРµРЅСЋ");
+            System.out.println("Виберіть пункт меню");
             command = scan.next();
             ret = Menu.execute(command,user);
-            if(ret == 0){ // СЏРєС‰Рѕ РїРѕРІРµСЂРЅСѓС‚Рё 0 РІРёР№С‚Рё Р· РјРµРЅСЋ РїРѕС€СѓРєСѓ(С†РёРєР»Сѓ)
+            if(ret == 0){ // якщо повернути 0 вийти з меню пошуку(циклу)
                 return;
             }
         }
